@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "186419207046",
+    "firebase_url": "https://sysai-273eb-default-rtdb.firebaseio.com",
+    "project_id": "sysai-273eb",
+    "storage_bucket": "sysai-273eb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186419207046:android:ad6fe4d0488c1cd9aa6a07",
+        "android_client_info": {
+          "package_name": "com.example.itcc_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "186419207046-bknlvfo2eqvr0ps4arudfupo0j0595m6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6dgI1EdiJG4HKoXBxVmhybx8x54y3BMA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "186419207046-bknlvfo2eqvr0ps4arudfupo0j0595m6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "186419207046-po2kfrdt494r9egju4hjq71did7at416.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.itccMobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
