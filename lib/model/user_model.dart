@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class UserModel {
@@ -32,5 +35,17 @@ class UserModel {
     };
   }
 
-
+  factory UserModel.fromSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> document) {
+    final data = document.data()!;
+    return UserModel(
+        id: document.id,
+        Nim: data['Nim'],
+        Nama: data['Nama'],
+        Email: data['Email'],
+        Jurusan: data['Jurusan'],
+        Password: data['Password'],
+        Nomor: data['Nomor'],
+        Angkatan: data['Angkatan']);
+  }
 }

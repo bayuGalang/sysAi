@@ -10,8 +10,10 @@ class sertifikatSaya extends StatelessWidget {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         centerTitle: true,
-        title: Text("My Certifacte"),
-        backgroundColor: blueItccColor,
+        title: Text("My Certifacte", style: blackTextStyle.copyWith(fontWeight: semiBold, fontSize: 20),),
+        elevation: 0,
+        iconTheme: IconThemeData(color: blackColor),
+        backgroundColor: backgroundColor,
       ),
       body: Container(
         margin: EdgeInsets.all(20),

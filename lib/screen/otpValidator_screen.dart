@@ -68,7 +68,7 @@ class _OtpScreenState extends State<OtpScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "Enter Mary's PIN",
+            "Kode OTP",
             style: GoogleFonts.montserrat(fontWeight: bold, fontSize: 30),
           ),
           Row(

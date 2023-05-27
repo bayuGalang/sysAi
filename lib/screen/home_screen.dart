@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:itcc_mobile/screen/profile_screen.dart';
 import 'package:itcc_mobile/shared/thame.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:itcc_mobile/repository/user_repository/autentication.dart';
@@ -57,7 +60,6 @@ class _homeScreenState extends State<homeScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: blueItccColor,
         onPressed: () {
-          AutenticationRepository.instance.logout();
         },
         child: Image.asset(
           'assets/icon/cs.png',
@@ -68,7 +70,7 @@ class _homeScreenState extends State<homeScreen> {
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 24),
         children: [
-          Profile(),
+          Profile(context),
           walletCard(),
           ImageSlide(),
           layanan(),
@@ -80,7 +82,7 @@ class _homeScreenState extends State<homeScreen> {
     );
   }
 
-  Widget Profile() {
+  Widget Profile(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 40),
       child: Row(
@@ -101,27 +103,30 @@ class _homeScreenState extends State<homeScreen> {
           const SizedBox(
             width: 130,
           ),
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    image: AssetImage('assets/images/image.png'))),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Container(
-                width: 16,
-                height: 16,
-                decoration: BoxDecoration(
+          GestureDetector(
+            onTap: () => Get.off(profileScreen()),
+            child: Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: whiteColor,
-                ),
-                child: Center(
-                  child: Icon(
-                    Icons.check_circle,
-                    size: 18,
-                    color: greenColor,
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/image.png'))),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  width: 16,
+                  height: 16,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: whiteColor,
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.check_circle,
+                      size: 18,
+                      color: greenColor,
+                    ),
                   ),
                 ),
               ),

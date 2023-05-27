@@ -10,6 +10,7 @@ import 'package:itcc_mobile/screen/mySertifikat_screen.dart';
 import 'package:itcc_mobile/screen/news_screen.dart';
 import 'package:itcc_mobile/screen/onboarding.dart';
 import 'package:itcc_mobile/screen/otpValidator_screen.dart';
+import 'package:itcc_mobile/screen/profile_screen.dart';
 import 'package:itcc_mobile/screen/register_screen.dart';
 import 'package:itcc_mobile/screen/signIn_option_screen.dart';
 import 'package:itcc_mobile/screen/signUP_succes.dart';
@@ -30,7 +31,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => const splash_screen(),
+        // '/': (context) => const splash_screen(),
+        '/': (context) => const profileScreen(),
         'onboarding': (context) => const onboarding_screen(),
         'signIn': (context) => loginScreen(),
         'signInOption': (context) => SignInOption(),
