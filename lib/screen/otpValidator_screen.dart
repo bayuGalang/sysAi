@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:itcc_mobile/screen/home_screen.dart';
+import 'package:itcc_mobile/screen/login_screen.dart';
 import 'package:itcc_mobile/shared/thame.dart';
 
 class otpScreen extends StatelessWidget {
@@ -113,7 +114,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   content: Text("OTP is verified"),
                 ));
                 Timer(Duration(seconds: 3), () {
-                  Get.offAll(homeScreen());
+                  Get.offAll(loginScreen());
                 });
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

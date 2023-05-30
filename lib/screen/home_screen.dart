@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:itcc_mobile/controller/profile_controller.dart';
+import 'package:itcc_mobile/model/user_model.dart';
 import 'package:itcc_mobile/screen/profile_screen.dart';
 import 'package:itcc_mobile/shared/thame.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,6 +21,7 @@ class homeScreen extends StatefulWidget {
 class _homeScreenState extends State<homeScreen> {
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(profileController());
     return Scaffold(
       backgroundColor: backgroundColor,
       bottomNavigationBar: BottomAppBar(
@@ -59,50 +64,55 @@ class _homeScreenState extends State<homeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: blueItccColor,
-        onPressed: () {
-        },
+        onPressed: () {},
         child: Image.asset(
           'assets/icon/cs.png',
           width: 35,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 24),
-        children: [
-          Profile(context),
-          walletCard(),
-          ImageSlide(),
-          layanan(),
-          latestTransaction(),
-          sendAgain(),
-          friendlyTips()
-        ],
+      body: FutureBuilder(
+        future: controller.getUserdata(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData) {
+              UserModel userData = snapshot.data as UserModel;
+              return ListView(
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                children: [
+                  Profile(context, userData.Nama),
+                  walletCard(userData.Nim),
+                  ImageSlide(),
+                  layanan(),
+                  latestTransaction(),
+                  sendAgain(),
+                  friendlyTips()
+                ],
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text(snapshot.hasError.toString()),
+              );
+            } else {
+              return Center(
+                child: Text("Something went wrong"),
+              );
+            }
+          }
+          else{
+            Center(child: CircularProgressIndicator(),);
+          }
+          return SizedBox();
+        },
       ),
     );
   }
 
-  Widget Profile(BuildContext context) {
+  Widget Profile(BuildContext context, String Nama) {
     return Container(
       margin: EdgeInsets.only(top: 40),
       child: Row(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Howdy',
-                style: greyTextStyle.copyWith(fontWeight: light, fontSize: 16),
-              ),
-              Text(
-                'Galang Bayu W',
-                style: blackTextStyle.copyWith(fontWeight: bold, fontSize: 20),
-              ),
-            ],
-          ),
-          const SizedBox(
-            width: 130,
-          ),
           GestureDetector(
             onTap: () => Get.off(profileScreen()),
             child: Container(
@@ -132,11 +142,33 @@ class _homeScreenState extends State<homeScreen> {
               ),
             ),
           ),
+          const SizedBox(
+            width: 20,
+          ),
+          GestureDetector(
+            onTap: () => Get.to(profileScreen()),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Howdy',
+                  style:
+                      greyTextStyle.copyWith(fontWeight: light, fontSize: 16),
+                ),
+                Text(
+                  Nama,
+                  style:
+                      blackTextStyle.copyWith(fontWeight: bold, fontSize: 20),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
-  Widget walletCard() {
+
+  Widget walletCard(String Nim) {
     return Container(
       width: double.infinity,
       height: 220,
@@ -159,7 +191,7 @@ class _homeScreenState extends State<homeScreen> {
               ).createShader(bounds);
             },
             child: Text(
-              "Galang Bayu W",
+              "Mahasiswa",
               style: whiteTextStyle.copyWith(
                 fontSize: 18,
                 fontWeight: semiBold,
@@ -214,7 +246,7 @@ class _homeScreenState extends State<homeScreen> {
               ).createShader(bounds);
             },
             child: Text(
-              "201931028",
+              Nim,
               style: whiteTextStyle.copyWith(
                 fontSize: 19,
                 fontWeight: reguler,
@@ -253,12 +285,14 @@ class _homeScreenState extends State<homeScreen> {
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-           child:Row(
+            child: Row(
               children: [
                 itemDo(
                   title: 'Pretest',
                   iconUrl: 'assets/images/exam-results.png',
-                  onTap: () {PopUpx(context);},
+                  onTap: () {
+                    PopUpx(context);
+                  },
                 ),
                 const SizedBox(
                   width: 16,
@@ -266,7 +300,9 @@ class _homeScreenState extends State<homeScreen> {
                 itemDo(
                   title: 'My Certificate',
                   iconUrl: 'assets/icon/certificate-2.png',
-                  onTap: (){Navigator.pushNamed(context, 'sertifikat');},
+                  onTap: () {
+                    Navigator.pushNamed(context, 'sertifikat');
+                  },
                 ),
                 const SizedBox(
                   width: 16,
@@ -274,7 +310,9 @@ class _homeScreenState extends State<homeScreen> {
                 itemDo(
                   title: 'Withdraw',
                   iconUrl: 'assets/icon/fi_upload.png',
-                  onTap: (){Navigator.pushNamed(context, 'news');},
+                  onTap: () {
+                    Navigator.pushNamed(context, 'news');
+                  },
                 ),
                 const SizedBox(
                   width: 16,
@@ -282,7 +320,7 @@ class _homeScreenState extends State<homeScreen> {
                 itemDo(
                   title: 'More',
                   iconUrl: 'assets/icon/more_icon.png',
-                  onTap: (){},
+                  onTap: () {},
                 )
               ],
             ),
@@ -291,6 +329,7 @@ class _homeScreenState extends State<homeScreen> {
       ),
     );
   }
+
   Widget latestTransaction() {
     return Container(
       margin: EdgeInsets.only(
@@ -330,6 +369,7 @@ class _homeScreenState extends State<homeScreen> {
       ),
     );
   }
+
   Widget sendAgain() {
     return Container(
       margin: EdgeInsets.all(22),
@@ -356,6 +396,7 @@ class _homeScreenState extends State<homeScreen> {
       ),
     );
   }
+
   Widget friendlyTips() {
     return Container(
       child: Column(
@@ -390,7 +431,8 @@ class _homeScreenState extends State<homeScreen> {
 }
 
 _launchWhatsApp() async {
-  final Uri url = Uri.parse('https://wa.me/6282213053377?text=Hallo,%20perkenalkan%20nama%20saya%20(Nama%20Lengkap),%20dengan%20NIM%20(NIM),%20dari%20Jurusan%20(Jurusan)%20ingin%20bertanya');
+  final Uri url = Uri.parse(
+      'https://wa.me/6282213053377?text=Hallo,%20perkenalkan%20nama%20saya%20(Nama%20Lengkap),%20dengan%20NIM%20(NIM),%20dari%20Jurusan%20(Jurusan)%20ingin%20bertanya');
   if (await canLaunchUrl(url)) {
     await launchUrl(url);
   } else {

@@ -5,6 +5,8 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:itcc_mobile/firebase_options.dart';
 import 'package:itcc_mobile/repository/user_repository/autentication.dart';
+import 'package:itcc_mobile/screen/aboutUs_screen.dart';
+import 'package:itcc_mobile/screen/editProfil.dart';
 import 'package:itcc_mobile/screen/login_screen.dart';
 import 'package:itcc_mobile/screen/mySertifikat_screen.dart';
 import 'package:itcc_mobile/screen/news_screen.dart';
@@ -31,8 +33,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
-        // '/': (context) => const splash_screen(),
-        '/': (context) => const profileScreen(),
+        '/': (context) => const splash_screen(),
+        // '/': (context) => const editProfil(),
         'onboarding': (context) => const onboarding_screen(),
         'signIn': (context) => loginScreen(),
         'signInOption': (context) => SignInOption(),
