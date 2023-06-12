@@ -11,7 +11,6 @@ class loginScreen extends StatefulWidget {
   @override
   State<loginScreen> createState() => _loginScreenState();
 }
-
 class _loginScreenState extends State<loginScreen> {
   @override
   Widget build(BuildContext context) {
