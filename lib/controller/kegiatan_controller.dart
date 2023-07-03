@@ -10,7 +10,11 @@ class kegiatanController extends GetxController {
 
   final _kegiatanRepo = Get.put(kegiatanRepository());
 
-  Future<List<KegiatanModel>> getKegiatan()async{
+  Future<KegiatanModel> getKegiatan()async{
     return await _kegiatanRepo.kegiatan();
+  }
+
+  Future<List<KegiatanModel>> allKegiatan()async{
+    return await _kegiatanRepo.allKegiatan();
   }
 }

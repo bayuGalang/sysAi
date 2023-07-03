@@ -1,5 +1,4 @@
 import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:get/get.dart';
@@ -133,7 +132,8 @@ Widget iconview() {
   );
 }
 
-Widget inputText(var _TextController, String inputTitle, bool obsecure, var validator) {
+Widget inputText(
+    var _TextController, String inputTitle, bool obsecure, var validator) {
   return Container(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,9 +159,7 @@ Widget inputText(var _TextController, String inputTitle, bool obsecure, var vali
   );
 }
 
-
 class dropDown extends StatefulWidget {
-
   dropDown({Key? key}) : super(key: key);
 
   @override
@@ -176,8 +174,6 @@ class dropDownState extends State<dropDown> {
     'Teknik Elektro',
     'Teknik Mesin'
   ];
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -223,7 +219,6 @@ class dropDownState extends State<dropDown> {
   }
 }
 
-
 class itemDo extends StatelessWidget {
   final title;
   final iconUrl;
@@ -262,60 +257,63 @@ class itemDo extends StatelessWidget {
 }
 
 Widget transactionItem(
-    String icon, String Judul, String Sub, String angka, String Tanggal) {
-  return Container(
-    margin: EdgeInsets.only(bottom: 18),
-    child: Row(
-      children: [
-        Image.asset(
-          icon,
-          width: 40,
-        ),
-        const SizedBox(
-          width: 16,
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                Judul,
-                style: blackTextStyle.copyWith(fontSize: 16, fontWeight: bold),
-              ),
-              Text(
-                Sub,
-                style: greyTextStyle.copyWith(fontSize: 10, fontWeight: light),
-              ),
-            ],
+    String icon, String Judul, String Sub, num angka, String Tanggal,VoidCallback? Ontap) {
+  return GestureDetector(
+    onTap: Ontap,
+    child: Container(
+      margin: EdgeInsets.only(bottom: 18),
+      child: Row(
+        children: [
+          Image.asset(
+            icon,
+            width: 40,
           ),
-        ),
-        Expanded(
-          child: Column(
-            children: [
-              Text(
-                angka,
-                style: blackTextStyle.copyWith(fontWeight: bold, fontSize: 13),
-              ),
-              Row(
-                children: [
-                  Text(
-                    "Registration Open ",
-                    style: greyTextStyle.copyWith(fontSize: 8),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    Tanggal,
-                    style:
-                        blueTextStyle.copyWith(fontSize: 8, fontWeight: bold),
-                  )
-                ],
-              )
-            ],
+          const SizedBox(
+            width: 16,
           ),
-        )
-      ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  Judul,
+                  style: blackTextStyle.copyWith(fontSize: 16, fontWeight: bold),
+                ),
+                Text(
+                  Sub,
+                  style: greyTextStyle.copyWith(fontSize: 10, fontWeight: light),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              children: [
+                Text(
+                  "Rp ${angka}",
+                  style: blackTextStyle.copyWith(fontWeight: bold, fontSize: 13),
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Registration Open ",
+                      style: greyTextStyle.copyWith(fontSize: 8),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      Tanggal,
+                      style:
+                          blueTextStyle.copyWith(fontSize: 8, fontWeight: bold),
+                    )
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
+      ),
     ),
   );
 }
@@ -437,7 +435,6 @@ PopUpx(BuildContext context) {
       ),
     );
   }
-
   Widget popUpHeader() {
     return Container(
       padding: EdgeInsets.only(bottom: 10),
@@ -462,7 +459,6 @@ PopUpx(BuildContext context) {
       ),
     );
   }
-
   Widget textField() {
     final maxLines = 4;
     return Column(
@@ -490,7 +486,6 @@ PopUpx(BuildContext context) {
       ],
     );
   }
-
   Widget editButton() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
@@ -510,7 +505,6 @@ PopUpx(BuildContext context) {
       ),
     );
   }
-
   Widget time() {
     DateTime date = DateTime.now();
     TimeOfDay time = TimeOfDay.now();
@@ -593,7 +587,6 @@ PopUpx(BuildContext context) {
               ),
             ));
   }
-
   // show the dialog
   showDialog(
       context: context,

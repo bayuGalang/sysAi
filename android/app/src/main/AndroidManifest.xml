@@ -29,7 +29,7 @@
         </intent>
     </queries>
    <application
-        android:label="itcc_mobile"
+        android:label="SysAi"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

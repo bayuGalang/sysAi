@@ -8,7 +8,12 @@ class kegiatanRepository extends GetxController{
 
   final _db = FirebaseFirestore.instance;
 
-  Future<List<KegiatanModel>>kegiatan() async{
+  Future<KegiatanModel>kegiatan() async{
+    final snapshoot = await _db.collection('Kegiatan').get();
+    final userdata = snapshoot.docs.map((e) => KegiatanModel.fromSnapshot(e)).single;
+    return userdata;
+  }
+  Future<List<KegiatanModel>> allKegiatan() async{
     final snapshoot = await _db.collection('Kegiatan').get();
     final userdata = snapshoot.docs.map((e) => KegiatanModel.fromSnapshot(e)).toList();
     return userdata;

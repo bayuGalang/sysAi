@@ -1,14 +1,14 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:itcc_mobile/controller/kegiatan_controller.dart';
 import 'package:itcc_mobile/controller/profile_controller.dart';
 import 'package:itcc_mobile/model/user_model.dart';
+import 'package:itcc_mobile/model/kegiatan_model.dart';
+import 'package:itcc_mobile/screen/mtcna.dart';
 import 'package:itcc_mobile/screen/profile_screen.dart';
 import 'package:itcc_mobile/shared/thame.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:itcc_mobile/repository/user_repository/autentication.dart';
 import '../widget/custom_widget.dart';
 
 class homeScreen extends StatefulWidget {
@@ -18,10 +18,60 @@ class homeScreen extends StatefulWidget {
   State<homeScreen> createState() => _homeScreenState();
 }
 
-class _homeScreenState extends State<homeScreen> {
+class _homeScreenState extends State<homeScreen> with TickerProviderStateMixin{
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(profileController());
+    TabController tabcontroller = TabController(length: 4, vsync: this);
+    List<Widget> scren = <Widget>[
+      Container(
+        child: FutureBuilder(
+          future: controller.getUserdata(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
+                UserModel userData = snapshot.data as UserModel;
+                return ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  children: [
+                    Profile(context, userData.Nama),
+                    walletCard(userData.Nim),
+                    ImageSlide(),
+                    layanan(),
+                    jadwal(),
+                    sendAgain(),
+                    friendlyTips()
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text(snapshot.hasError.toString()),
+                );
+              } else {
+                return Center(
+                  child: Text("Something went wrong"),
+                );
+              }
+            } else {
+              Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return SizedBox();
+          },
+        ),
+      ),
+      Container(),
+      Container(),
+      Container(),
+    ];
     return Scaffold(
       backgroundColor: backgroundColor,
       bottomNavigationBar: BottomAppBar(
@@ -46,7 +96,6 @@ class _homeScreenState extends State<homeScreen> {
                   icon: Image.asset(
                     'assets/icon/fi_layers-3.png',
                     width: 20,
-                    color: blueColor,
                   ),
                   label: 'Overeview'),
               BottomNavigationBarItem(
@@ -60,7 +109,11 @@ class _homeScreenState extends State<homeScreen> {
               BottomNavigationBarItem(
                   icon: Image.asset('assets/icon/fi_gift-2.png', width: 20),
                   label: 'Reward'),
-            ]),
+            ],
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+        ),
+
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: blueItccColor,
@@ -71,40 +124,9 @@ class _homeScreenState extends State<homeScreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: FutureBuilder(
-        future: controller.getUserdata(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData) {
-              UserModel userData = snapshot.data as UserModel;
-              return ListView(
-                padding: EdgeInsets.symmetric(horizontal: 24),
-                children: [
-                  Profile(context, userData.Nama),
-                  walletCard(userData.Nim),
-                  ImageSlide(),
-                  layanan(),
-                  latestTransaction(),
-                  sendAgain(),
-                  friendlyTips()
-                ],
-              );
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text(snapshot.hasError.toString()),
-              );
-            } else {
-              return Center(
-                child: Text("Something went wrong"),
-              );
-            }
-          }
-          else{
-            Center(child: CircularProgressIndicator(),);
-          }
-          return SizedBox();
-        },
-      ),
+      body: Center(
+        child: scren.elementAt(_selectedIndex)
+      )
     );
   }
 
@@ -260,17 +282,6 @@ class _homeScreenState extends State<homeScreen> {
     );
   }
 
-  // Widget imageSilder(){
-  //   return Container(
-  //     margin: EdgeInsets.only(top: 20),
-  //     padding: EdgeInsets.all(20),
-  //     decoration: BoxDecoration(
-  //       borderRadius: BorderRadius.circular(24),
-  //       color: whiteColor
-  //     ),
-  //     child: ,
-  //   );
-  // }
   Widget layanan() {
     return Container(
       margin: EdgeInsets.only(top: 30, bottom: 14),
@@ -290,9 +301,7 @@ class _homeScreenState extends State<homeScreen> {
                 itemDo(
                   title: 'Pretest',
                   iconUrl: 'assets/images/exam-results.png',
-                  onTap: () {
-                    PopUpx(context);
-                  },
+                  onTap: () {},
                 ),
                 const SizedBox(
                   width: 16,
@@ -325,46 +334,6 @@ class _homeScreenState extends State<homeScreen> {
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget latestTransaction() {
-    return Container(
-      margin: EdgeInsets.only(
-        top: 30,
-        left: 4,
-      ),
-      child: Column(
-        children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              'Latest Transaction',
-              style: blackTextStyle.copyWith(fontSize: 16, fontWeight: bold),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 14),
-            padding: const EdgeInsets.all(22),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20), color: Colors.white),
-            child: Column(
-              children: [
-                transactionItem('assets/icon/MOS-Badge.png', 'MOS',
-                    "Microsoft Office Specialist", '+ 750.000', "19 Aug"),
-                transactionItem('assets/icon/Mikrotik-2.png', 'MTCNA',
-                    'Mikrotik', '+ 1.200.000', "29 Aug"),
-                transactionItem('assets/icon/MOS-Badge.png', 'MOS',
-                    'Microsoft Office Specialist', '+ 750.000', "19 Aug"),
-                transactionItem('assets/icon/MCE.png', 'MCE',
-                    'Microsoft Certified Educator', '+ 1.200.000', "19 Aug"),
-                transactionItem('assets/icon/mcf.png', 'MCF',
-                    'Microsoft Certified Fundamental', '+ 1.000.000', "19 Aug"),
-              ],
-            ),
-          )
         ],
       ),
     );
@@ -430,12 +399,128 @@ class _homeScreenState extends State<homeScreen> {
   }
 }
 
-_launchWhatsApp() async {
-  final Uri url = Uri.parse(
-      'https://wa.me/6282213053377?text=Hallo,%20perkenalkan%20nama%20saya%20(Nama%20Lengkap),%20dengan%20NIM%20(NIM),%20dari%20Jurusan%20(Jurusan)%20ingin%20bertanya');
-  if (await canLaunchUrl(url)) {
-    await launchUrl(url);
-  } else {
-    throw 'Could not launch $url';
+class jadwal extends StatelessWidget {
+  const jadwal({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final kegiatan = Get.put(kegiatanController());
+    return FutureBuilder(
+      future: kegiatan.getKegiatan(),
+      builder: (context, snapshot) {
+        KegiatanModel kg = snapshot.data as KegiatanModel;
+        return Container(
+          margin: EdgeInsets.only(
+            top: 30,
+            left: 4,
+          ),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Jadwal Kegiatan Terdekat',
+                  style:
+                      blackTextStyle.copyWith(fontSize: 16, fontWeight: bold),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 14),
+                padding: const EdgeInsets.all(22),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white),
+                child: Column(
+                  children: [
+                    transactionItem('assets/icon/Mikrotik-2.png', 'MTCNA',
+                        'Mikrotik', 1200000, "29 Aug", (){Get.to(mtcnaScreen());}),
+                    transactionItem('assets/icon/MOS-Badge.png', 'MOS',
+                        'Microsoft Office Specialist', 750000, "19 Aug", (){}),
+                    transactionItem('assets/icon/MCE.png', 'MCE',
+                        'Microsoft Certified Educator', 1200000, "19 Aug", (){}),
+                    transactionItem('assets/icon/mcf.png', 'MCF',
+                        'Microsoft Certified Fundamental', 1000000, "19 Aug", (){}),
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 }
+
+// class jadwalList extends StatelessWidget {
+//   const jadwalList({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final kegiatan = Get.put(kegiatanController());
+//     return FutureBuilder<List<KegiatanModel>>(
+//       future: kegiatan.allKegiatan(),
+//       builder: (context, snapshot) {
+//         KegiatanModel kg = snapshot.data as KegiatanModel;
+//         return Container(
+//           margin: EdgeInsets.only(
+//             top: 30,
+//             left: 4,
+//           ),
+//           child: Column(
+//             children: [
+//               Align(
+//                 alignment: Alignment.topLeft,
+//                 child: Text(
+//                   'Jadwal Kegiatan Terdekat',
+//                   style:
+//                       blackTextStyle.copyWith(fontSize: 16, fontWeight: bold),
+//                 ),
+//               ),
+//               Container(
+//                 margin: const EdgeInsets.only(top: 14),
+//                 padding: const EdgeInsets.all(22),
+//                 decoration: BoxDecoration(
+//                     borderRadius: BorderRadius.circular(20),
+//                     color: Colors.white),
+//                 child: ListView.builder(
+//                     shrinkWrap: true,
+//                     itemCount: snapshot.data!.length,
+//                     itemBuilder: (c, index) {
+//                       return Column(
+//                         children: [
+//                           GestureDetector(
+//                             onTap: PopUpx(context),
+//                             child: transactionItem(
+//                                 'assets/icon/MOS-Badge.png',
+//                                 'MOS',
+//                                 "Microsoft Office Specialist",
+//                                 snapshot.data![index].Harga,
+//                                 snapshot.data![index].openDate),
+//                           ),
+//                           transactionItem('assets/icon/Mikrotik-2.png', 'MTCNA',
+//                               'Mikrotik', 1200000, "29 Aug"),
+//                           transactionItem('assets/icon/MOS-Badge.png', 'MOS',
+//                               'Microsoft Office Specialist', 750000, "19 Aug"),
+//                           transactionItem(
+//                               'assets/icon/MCE.png',
+//                               'MCE',
+//                               'Microsoft Certified Educator',
+//                               1200000,
+//                               "19 Aug"),
+//                           transactionItem(
+//                               'assets/icon/mcf.png',
+//                               'MCF',
+//                               'Microsoft Certified Fundamental',
+//                               1000000,
+//                               "19 Aug"),
+//                         ],
+//                       );
+//                     }),
+//               )
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }

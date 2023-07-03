@@ -29,16 +29,20 @@ class sertifikatSaya extends StatelessWidget {
       body: FutureBuilder(
           future: sertif.getKegiatan(),
           builder: (context, snapshot) {
-            sertifModel cert = snapshot.data as sertifModel;
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasData) {
+                sertifModel cert = snapshot.data as sertifModel;
+                var test = cert.valid;
                 return Container(
                   margin: EdgeInsets.all(20),
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        sertifikat(cert.valid, cert.kode),
-                        sertifikat('Lulus', '91hwidi'),
+                        if (test == "Lulus") ...[
+                          sertifikat(cert.valid, cert.kode),
+                        ] else ...[
+                          Text("Belum Mengikuti Kegiatan")
+                        ]
                       ],
                     ),
                   ),
@@ -72,61 +76,118 @@ class sertifikatSaya extends StatelessWidget {
 }
 
 Widget sertifikat(String kelulusan, String code) {
-  return Container(
-    margin: EdgeInsets.only(bottom: 20),
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30), color: whiteColor),
-    child: Column(
-      children: [
-        Image(
-          image: AssetImage("assets/icon/mos_badge.png"),
-          height: 100,
-          width: 100,
-        ),
-        Text(
-          "Congratulation",
-          style: blackTextStyle.copyWith(fontSize: 20, fontWeight: bold),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text(
-          'Has Successfully Passed Microsoft Office Exam',
-          style: greyTextStyle.copyWith(fontSize: 13, fontWeight: bold),
-        ),
-        SizedBox(
-          height: 14,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              'Code : ',
-              style: blackTextStyle.copyWith(fontWeight: bold),
-            ),
-            Text(code),
-            SizedBox(
-              width: 40,
-            ),
-            Text(
-              "Verified By ITCC : ",
-              style: blackTextStyle.copyWith(fontSize: 15, fontWeight: bold),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: blueColor,
+  if (kelulusan == 'Lulus') {
+    return Container(
+      margin: EdgeInsets.only(bottom: 20),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30), color: whiteColor),
+      child: Column(
+        children: [
+          Image(
+            image: AssetImage("assets/icon/mos_badge.png"),
+            height: 100,
+            width: 100,
+          ),
+          Text(
+            "Congratulation",
+            style: blackTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            'Has Successfully Passed Microsoft Office Exam',
+            style: greyTextStyle.copyWith(fontSize: 13, fontWeight: bold),
+          ),
+          SizedBox(
+            height: 14,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                'Code : ',
+                style: blackTextStyle.copyWith(fontWeight: bold),
               ),
-              child: Text(
-                kelulusan,
-                style: whiteTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+              Text(code),
+              SizedBox(
+                width: 40,
               ),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-          ],
-        )
-      ],
-    ),
-  );
+              Text(
+                "Verified By ITCC : ",
+                style: blackTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: blueColor,
+                ),
+                child: Text(
+                  kelulusan,
+                  style:
+                      whiteTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  } else {
+    return Container(
+      margin: EdgeInsets.only(bottom: 20),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30), color: whiteColor),
+      child: Column(
+        children: [
+          Text(
+            "Congratulation",
+            style: blackTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            'Has Successfully Passed Microsoft Office Exam',
+            style: greyTextStyle.copyWith(fontSize: 13, fontWeight: bold),
+          ),
+          SizedBox(
+            height: 14,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                'Code : ',
+                style: blackTextStyle.copyWith(fontWeight: bold),
+              ),
+              Text(code),
+              SizedBox(
+                width: 40,
+              ),
+              Text(
+                "Verified By ITCC : ",
+                style: blackTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: blueColor,
+                ),
+                child: Text(
+                  kelulusan,
+                  style:
+                      whiteTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
 }
