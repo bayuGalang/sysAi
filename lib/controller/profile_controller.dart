@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:itcc_mobile/repository/user_repository/autentication.dart';
 import 'package:itcc_mobile/repository/user_repository/user_repository.dart';
+import 'package:itcc_mobile/screen/home_screen.dart';
 
 class profileController extends GetxController{
   static profileController get instance => Get.find();
@@ -13,7 +14,7 @@ class profileController extends GetxController{
     if(email != null){
       return _userRepo.getUserDataDetails(email);
     } else{
-      return Get.snackbar("Error", "Silahkan Login");
+      Get.to(()=>homeScreen());
     }
   }
 }

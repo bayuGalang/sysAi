@@ -17,4 +17,7 @@ class kegiatanController extends GetxController {
   Future<List<KegiatanModel>> allKegiatan()async{
     return await _kegiatanRepo.allKegiatan();
   }
+  Future<KegiatanModel>mos()async{
+    return await _kegiatanRepo.mosWord();
+  }
 }

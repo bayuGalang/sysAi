@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         // '/': (context) => const editProfil(),
         'onboarding': (context) => const onboarding_screen(),
         'signIn': (context) => loginScreen(),
-        'signInOption': (context) => SignInOption(),
+        'signInOptionn': (context) => SignInOptionn(),
         'signUp': (context) => getStarted(),
         'signUp_profil': (context) => registerUploadProfil(),
         'uploadKTP': (context) => uploadKTP(),

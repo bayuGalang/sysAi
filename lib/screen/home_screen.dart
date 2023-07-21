@@ -5,8 +5,10 @@ import 'package:itcc_mobile/controller/kegiatan_controller.dart';
 import 'package:itcc_mobile/controller/profile_controller.dart';
 import 'package:itcc_mobile/model/user_model.dart';
 import 'package:itcc_mobile/model/kegiatan_model.dart';
+import 'package:itcc_mobile/screen/listDaftarKegiatan_screen.dart';
 import 'package:itcc_mobile/screen/mtcna.dart';
 import 'package:itcc_mobile/screen/profile_screen.dart';
+import 'package:itcc_mobile/screen/listDaftarKegiatan_screen.dart';
 import 'package:itcc_mobile/shared/thame.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widget/custom_widget.dart';
@@ -317,7 +319,7 @@ class _homeScreenState extends State<homeScreen> with TickerProviderStateMixin{
                   width: 16,
                 ),
                 itemDo(
-                  title: 'Withdraw',
+                  title: 'Daftar Lagi',
                   iconUrl: 'assets/icon/fi_upload.png',
                   onTap: () {
                     Navigator.pushNamed(context, 'news');
@@ -418,10 +420,13 @@ class jadwal extends StatelessWidget {
             children: [
               Align(
                 alignment: Alignment.topLeft,
-                child: Text(
-                  'Jadwal Kegiatan Terdekat',
-                  style:
-                      blackTextStyle.copyWith(fontSize: 16, fontWeight: bold),
+                child: GestureDetector(
+                  onTap: (){Get.to(()=>listKegiatanScreen());},
+                  child: Text(
+                    'Jadwal Kegiatan Terdekat',
+                    style:
+                        blackTextStyle.copyWith(fontSize: 16, fontWeight: bold),
+                  ),
                 ),
               ),
               Container(

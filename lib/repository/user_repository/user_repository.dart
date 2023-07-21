@@ -16,7 +16,6 @@ class UserRepositroy extends GetxController {
           () => {},
         )
         .catchError((error, stackTerace) {
-      Get.snackbar("Error", "Ada Kendala Login", snackPosition: SnackPosition.BOTTOM);
       print(error.toString());
     });
   }

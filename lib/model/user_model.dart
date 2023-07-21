@@ -49,3 +49,27 @@ class UserModel {
         Angkatan: data['Angkatan']);
   }
 }
+
+class GoogleUserModel {
+  final String uid;
+  final String displayName;
+  final String email;
+  final String photoUrl;
+
+  GoogleUserModel({
+    required this.uid,
+    required this.displayName,
+    required this.email,
+    required this.photoUrl,
+  });
+
+  factory GoogleUserModel.fromFirebaseUser(User user) {
+    return GoogleUserModel(
+      uid: user.uid,
+      displayName: user.displayName ?? "",
+      email: user.email ?? "",
+      photoUrl: user.photoURL ?? "",
+    );
+  }
+}
+

@@ -9,7 +9,7 @@ class KegiatanModel {
   final String Nama_kegiatan;
   final String Kegiatan;
   final String openDate;
-  final num Harga;
+  final int Harga;
 
   const KegiatanModel(
       {this.id,

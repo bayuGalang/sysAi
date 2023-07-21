@@ -4,12 +4,14 @@ import 'package:get/get.dart';
 import 'package:itcc_mobile/screen/home_screen.dart';
 import 'package:itcc_mobile/screen/signIn_option_screen.dart';
 import '../../screen/onboarding.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AutenticationRepository extends GetxController {
   static AutenticationRepository get instance => Get.find();
 
   final _auth = FirebaseAuth.instance;
   late final Rx<User?> firebaseUser;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   void onReady() {
@@ -42,10 +44,31 @@ class AutenticationRepository extends GetxController {
       throw ex;
     } catch (_) {}
   }
+  Future<User?> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
+        );
+
+        final UserCredential authResult = await _auth.signInWithCredential(credential);
+        final User? user = authResult.user;
+        return user;
+      }
+    } catch (e) {
+      print("Error during Google sign-in: $e");
+    }
+
+    return null;
+  }
 
   Future<void> logout() async {
     await _auth.signOut();
-    Get.offAll(SignInOption());
+    Get.offAll(()=>SignInOptionn());
   }
 
   Future<void> sendEmailverification() async {

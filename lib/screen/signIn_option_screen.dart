@@ -1,12 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:itcc_mobile/controller/signUP_controller.dart';
+import 'package:itcc_mobile/model/user_model.dart';
+import 'package:itcc_mobile/repository/user_repository/autentication.dart';
+import 'package:itcc_mobile/screen/home_screen.dart';
 import 'package:itcc_mobile/shared/thame.dart';
 import 'package:itcc_mobile/widget/custom_widget.dart';
 
-class SignInOption extends StatelessWidget {
-  const SignInOption({Key? key}) : super(key: key);
+class SignInOptionn extends StatelessWidget {
+  const SignInOptionn({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(signUpController());
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Center(
@@ -46,7 +54,9 @@ class SignInOption extends StatelessWidget {
                     customIconFilledButton(
                         title: "Login Dengan Google",
                         icon: "assets/icon/New-Google-Logo.jpg",
-                        onPress: () {}),
+                        onPress: () {
+                          signUpController.instance.loginGmail();
+                        }),
                     SizedBox(
                       height: 15,
                     ),

@@ -179,7 +179,7 @@ class _onboarding_screenState extends State<onboarding_screen> {
                       height: 46,
                       child: TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, "signInOption");
+                            Navigator.pushNamed(context, "signInOptionn");
                           },
                           child: Text(
                             "Sign in",

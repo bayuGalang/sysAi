@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:itcc_mobile/model/user_model.dart';
@@ -18,6 +19,7 @@ class signUpController extends GetxController {
   final TextEditingController nameController = TextEditingController();
 
   final userRepo = Get.put(UserRepositroy());
+  final AutenticationRepository _authService = AutenticationRepository();
 
   Future<void> pushData(UserModel user) async {
     await userRepo.CreateUser(user);
@@ -26,12 +28,23 @@ class signUpController extends GetxController {
   Future<void> registerUser(String Email, String Password) async {
     await AutenticationRepository.instance
         .createUserwithEmail(emailController.text, passwordController.text);
+    Get.to(homeScreen());
   }
 
   Future<void> loginUser(String Email, String Password) async {
     await AutenticationRepository.instance
         .loginUserwithEmail(emailController.text, passwordController.text);
-    Get.offAll(homeScreen());
+    Get.to(homeScreen());
   }
-
+  Future<void> loginGmail()async{
+    User? user = await _authService.signInWithGoogle();
+    if (user != null) {
+      GoogleUserModel gmodel =
+      GoogleUserModel.fromFirebaseUser(user);
+      registerUser(gmodel.email, "123");
+      Get.to(()=>homeScreen());
+    } else {
+      // Handle unsuccessful login.
+    }
+  }
 }
