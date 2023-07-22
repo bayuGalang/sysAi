@@ -3,12 +3,15 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:itcc_mobile/controller/kegiatan_controller.dart';
 import 'package:itcc_mobile/controller/profile_controller.dart';
+import 'package:itcc_mobile/controller/signUP_controller.dart';
 import 'package:itcc_mobile/model/user_model.dart';
 import 'package:itcc_mobile/model/kegiatan_model.dart';
+import 'package:itcc_mobile/repository/user_repository/autentication.dart';
 import 'package:itcc_mobile/screen/listDaftarKegiatan_screen.dart';
 import 'package:itcc_mobile/screen/mtcna.dart';
 import 'package:itcc_mobile/screen/profile_screen.dart';
 import 'package:itcc_mobile/screen/listDaftarKegiatan_screen.dart';
+import 'package:itcc_mobile/screen/signIn_option_screen.dart';
 import 'package:itcc_mobile/shared/thame.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widget/custom_widget.dart';
@@ -20,7 +23,7 @@ class homeScreen extends StatefulWidget {
   State<homeScreen> createState() => _homeScreenState();
 }
 
-class _homeScreenState extends State<homeScreen> with TickerProviderStateMixin{
+class _homeScreenState extends State<homeScreen> with TickerProviderStateMixin {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -28,6 +31,7 @@ class _homeScreenState extends State<homeScreen> with TickerProviderStateMixin{
       _selectedIndex = index;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(profileController());
@@ -75,14 +79,14 @@ class _homeScreenState extends State<homeScreen> with TickerProviderStateMixin{
       Container(),
     ];
     return Scaffold(
-      backgroundColor: backgroundColor,
-      bottomNavigationBar: BottomAppBar(
-        color: backgroundColor,
-        shape: const CircularNotchedRectangle(),
-        clipBehavior: Clip.antiAlias,
-        notchMargin: 6,
-        elevation: 0,
-        child: BottomNavigationBar(
+        backgroundColor: backgroundColor,
+        bottomNavigationBar: BottomAppBar(
+          color: backgroundColor,
+          shape: const CircularNotchedRectangle(),
+          clipBehavior: Clip.antiAlias,
+          notchMargin: 6,
+          elevation: 0,
+          child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             elevation: null,
             selectedItemColor: blueColor,
@@ -112,24 +116,28 @@ class _homeScreenState extends State<homeScreen> with TickerProviderStateMixin{
                   icon: Image.asset('assets/icon/fi_gift-2.png', width: 20),
                   label: 'Reward'),
             ],
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+          ),
         ),
-
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: blueItccColor,
-        onPressed: () {},
-        child: Image.asset(
-          'assets/icon/cs.png',
-          width: 35,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: blueItccColor,
+          onPressed: () {
+            AutenticationRepository.instance.logout();
+            Get.offAll(() => SignInOptionn());
+          },
+          child: Image.asset(
+            'assets/icon/cs.png',
+            width: 35,
+          ),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: Center(
-        child: scren.elementAt(_selectedIndex)
-      )
-    );
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        body: GestureDetector(
+          onDoubleTap: () {
+            Get.to(() => homeScreen());
+          },
+          child: Center(child: scren.elementAt(_selectedIndex)),
+        ));
   }
 
   Widget Profile(BuildContext context, String Nama) {
@@ -406,52 +414,52 @@ class jadwal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final kegiatan = Get.put(kegiatanController());
-    return FutureBuilder(
-      future: kegiatan.getKegiatan(),
-      builder: (context, snapshot) {
-        KegiatanModel kg = snapshot.data as KegiatanModel;
-        return Container(
-          margin: EdgeInsets.only(
-            top: 30,
-            left: 4,
-          ),
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: GestureDetector(
-                  onTap: (){Get.to(()=>listKegiatanScreen());},
-                  child: Text(
-                    'Jadwal Kegiatan Terdekat',
-                    style:
-                        blackTextStyle.copyWith(fontSize: 16, fontWeight: bold),
-                  ),
-                ),
+    return Container(
+      margin: EdgeInsets.only(
+        top: 30,
+        left: 4,
+      ),
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: GestureDetector(
+              onTap: () {
+                Get.to(() => listKegiatanScreen());
+              },
+              child: Text(
+                'Sertifikasi di ITCC',
+                style: blackTextStyle.copyWith(fontSize: 16, fontWeight: bold),
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 14),
-                padding: const EdgeInsets.all(22),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white),
-                child: Column(
-                  children: [
-                    transactionItem('assets/icon/Mikrotik-2.png', 'MTCNA',
-                        'Mikrotik', 1200000, "29 Aug", (){Get.to(mtcnaScreen());}),
-                    transactionItem('assets/icon/MOS-Badge.png', 'MOS',
-                        'Microsoft Office Specialist', 750000, "19 Aug", (){}),
-                    transactionItem('assets/icon/MCE.png', 'MCE',
-                        'Microsoft Certified Educator', 1200000, "19 Aug", (){}),
-                    transactionItem('assets/icon/mcf.png', 'MCF',
-                        'Microsoft Certified Fundamental', 1000000, "19 Aug", (){}),
-                  ],
-                ),
-              )
-            ],
+            ),
           ),
-        );
-      },
+          Container(
+            margin: const EdgeInsets.only(top: 14),
+            padding: const EdgeInsets.all(22),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20), color: Colors.white),
+            child: Column(
+              children: [
+                transactionItem('assets/icon/Mikrotik-2.png', 'MCNA',
+                    'Mikrotik', "1.200.000", "29 Aug", () {
+                  Get.to(() => mtcnaScreen());
+                }),
+                transactionItem('assets/icon/MOS-Badge.png', 'MOS',
+                    'Microsoft Office Specialist', "750.000", "19 Aug", () {}),
+                transactionItem('assets/icon/MCE.png', 'MCE',
+                    'Microsoft Certified Educator', "1.200.000", "19 Aug", () {}),
+                transactionItem(
+                    'assets/icon/mcf.png',
+                    'MCF',
+                    'Microsoft Certified Fundamental',
+                    "1.000.000",
+                    "19 Aug",
+                    () {}),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

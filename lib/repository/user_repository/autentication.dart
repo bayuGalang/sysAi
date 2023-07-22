@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -68,7 +69,8 @@ class AutenticationRepository extends GetxController {
 
   Future<void> logout() async {
     await _auth.signOut();
-    Get.offAll(()=>SignInOptionn());
+    await _googleSignIn.signOut();
+    await FirebaseFirestore.instance.clearPersistence();
   }
 
   Future<void> sendEmailverification() async {

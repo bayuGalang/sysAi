@@ -27,4 +27,20 @@ class kegiatanRepository extends GetxController {
     final userdata = snapshot.docs.map((e) => KegiatanModel.fromSnapshot(e)).single;
     return userdata;
   }
+  void getDataFromFirebase() async {
+    try {
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection('Kegiatan')
+          .doc('word')
+          .get();
+      if (documentSnapshot.exists) {
+        Object? data = documentSnapshot.data();
+        print('Data: $data');
+      } else {
+        print('Document does not exist');
+      }
+    } catch (e) {
+      print('Error getting data: $e');
+    }
+  }
 }

@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:itcc_mobile/screen/aboutUs_screen.dart';
 import 'package:itcc_mobile/screen/editProfil.dart';
 import 'package:itcc_mobile/screen/home_screen.dart';
+import 'package:itcc_mobile/screen/signIn_option_screen.dart';
 import '../controller/profile_controller.dart';
 import '../model/user_model.dart';
 import '../repository/user_repository/autentication.dart';
@@ -75,8 +76,10 @@ class profileScreen extends StatelessWidget {
                         'assets/icon/pin_icon.png', 'Lupa Password', () {}),
                     iconProfil('assets/icon/info.png', 'Tentang',
                         () => Get.to(aboutUsScreen())),
-                    iconProfil('assets/icon/fi_log-out.png', 'Logout',
-                        () => AutenticationRepository.instance.logout()),
+                    iconProfil('assets/icon/fi_log-out.png', 'Logout', () {
+                      AutenticationRepository.instance.logout();
+                      Get.offAll(() => SignInOptionn());
+                    }),
                     Text(
                       'SysAi - ITCC',
                       style: greyTextStyle.copyWith(

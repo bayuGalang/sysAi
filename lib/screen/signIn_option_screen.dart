@@ -15,6 +15,7 @@ class SignInOptionn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(signUpController());
+    final AutenticationRepository _authService = AutenticationRepository();
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Center(
@@ -54,8 +55,24 @@ class SignInOptionn extends StatelessWidget {
                     customIconFilledButton(
                         title: "Login Dengan Google",
                         icon: "assets/icon/New-Google-Logo.jpg",
-                        onPress: () {
-                          signUpController.instance.loginGmail();
+                        onPress: () async{
+                          User? user = await _authService.signInWithGoogle();
+                          if (user != null) {
+                            GoogleUserModel gmodel = GoogleUserModel.fromFirebaseUser(user);
+                            final userData = UserModel(
+                                Nim: "Silahkan Lengkapi Data",
+                                Nama: gmodel.displayName,
+                                Email: gmodel.email,
+                                Jurusan: "Data",
+                                Password: "123",
+                                Nomor: "Data",
+                                Angkatan: "Silahkan Lengkapi Data");
+                            controller.registerUser(gmodel.email, "123");
+                            controller.loginUser(gmodel.email, "123");
+                            controller.pushData(userData);
+                          } else {
+                            // Handle unsuccessful login.
+                          }
                         }),
                     SizedBox(
                       height: 15,

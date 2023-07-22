@@ -12,7 +12,6 @@ class listKegiatanScreen extends StatefulWidget {
 }
 
 class _listKegiatanScreenState extends State<listKegiatanScreen> {
-  List<Object> _kegiatanList = [];
   @override
   Widget build(BuildContext context) {
     final kegiatan = kegiatanController();
@@ -32,7 +31,7 @@ class _listKegiatanScreenState extends State<listKegiatanScreen> {
           future: kegiatan.mos(),
           builder: (context, snapshot) {
             return transactionItem('assets/icon/MOS-Badge.png', 'MOS',
-                "kegiatan.Nama_kegiatan", 750000, "19 Aug", () {});
+                "kegiatan.Nama_kegiatan", "750.000", "19 Aug", () {});
           },
         ));
   }

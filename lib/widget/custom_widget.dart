@@ -257,7 +257,7 @@ class itemDo extends StatelessWidget {
 }
 
 Widget transactionItem(
-    String icon, String Judul, String Sub, num angka, String Tanggal,VoidCallback? Ontap) {
+    String icon, String Judul, String Sub, String angka, String Tanggal,VoidCallback? Ontap) {
   return GestureDetector(
     onTap: Ontap,
     child: Container(
