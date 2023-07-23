@@ -25,6 +25,10 @@ class signUpController extends GetxController {
     await userRepo.CreateUser(user);
   }
 
+  Future<void> updateUser(UserModel user)async{
+    await userRepo.UpdateUser(user);
+  }
+
   Future<void> registerUser(String Email, String Password) async {
     await AutenticationRepository.instance
         .createUserwithEmail(emailController.text, passwordController.text);

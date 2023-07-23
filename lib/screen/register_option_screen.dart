@@ -6,12 +6,13 @@ import 'package:itcc_mobile/controller/signUP_controller.dart';
 import 'package:itcc_mobile/model/user_model.dart';
 import 'package:itcc_mobile/repository/user_repository/autentication.dart';
 import 'package:itcc_mobile/screen/home_screen.dart';
-import 'package:itcc_mobile/screen/register_option_screen.dart';
+import 'package:itcc_mobile/screen/register_screen.dart';
+import 'package:itcc_mobile/screen/signIn_option_screen.dart';
 import 'package:itcc_mobile/shared/thame.dart';
 import 'package:itcc_mobile/widget/custom_widget.dart';
 
-class SignInOptionn extends StatelessWidget {
-  const SignInOptionn({Key? key}) : super(key: key);
+class RegisterOptionn extends StatelessWidget {
+  const RegisterOptionn({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class SignInOptionn extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 child: Text(
-                  "Welcome Back! Please Sign In to Continue.",
+                  "Welcome Back! Please Register to Continue.",
                   style: blackTextStyle.copyWith(
                       fontSize: 20, fontWeight: semiBold),
                 ),
@@ -54,7 +55,7 @@ class SignInOptionn extends StatelessWidget {
                       height: 20,
                     ),
                     customIconFilledButton(
-                        title: "Login Dengan Google",
+                        title: "Register gmail",
                         icon: "assets/icon/New-Google-Logo.jpg",
                         onPress: () async{
                           User? user = await _authService.signInWithGoogle();
@@ -68,7 +69,8 @@ class SignInOptionn extends StatelessWidget {
                                 Password: "123",
                                 Nomor: "Unkown",
                                 Angkatan: "Unkown");
-                            controller.loginUser(userData.Email, "123");
+                            controller.registerUser(gmodel.email, "123");
+                            controller.pushData(userData);
                           } else {
                             // Handle unsuccessful login.
                           }
@@ -77,7 +79,7 @@ class SignInOptionn extends StatelessWidget {
                       height: 15,
                     ),
                     customIconFilledButton(
-                        title: "Login Dengan Microsoft",
+                        title: "Register Outlook",
                         icon: "assets/icon/Microsoft_logo.svg.png",
                         onPress: () {
                           Get.snackbar("Alrert", "Belum dapat login dengan Outlook");
@@ -86,18 +88,18 @@ class SignInOptionn extends StatelessWidget {
                       height: 15,
                     ),
                     customIconFilledButton(
-                        title: "Login Dengan Email",
+                        title: "Register email",
                         icon: "assets/images/email.png",
                         onPress: () {
-                          Navigator.pushNamed(context, 'signIn');
+                          Get.to(()=>getStarted());
                         }),
                     SizedBox(
                       height: 30,
                     ),
                     SignOut(
-                        title: "Create New Account",
+                        title: "Alredy Have an Acount",
                         onPress: () {
-                          Get.to(RegisterOptionn());
+                          Get.to(()=>SignInOptionn());
                         })
                   ],
                 ),
@@ -115,10 +117,10 @@ class SignOut extends StatelessWidget {
   final VoidCallback onPress;
   const SignOut(
       {Key? key,
-      required this.title,
-      this.width = double.infinity,
-      this.heigth = 46,
-      required this.onPress})
+        required this.title,
+        this.width = double.infinity,
+        this.heigth = 46,
+        required this.onPress})
       : super(key: key);
 
   @override

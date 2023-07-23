@@ -20,15 +20,28 @@ class UserRepositroy extends GetxController {
     });
   }
 
- Future<UserModel> getUserDataDetails(String email) async{
-    final snapshoot = await _db.collection('Mahasiswa').where('Email', isEqualTo: email).get();
-    final userdata = snapshoot.docs.map((e) => UserModel.fromSnapshot(e)).single;
+  UpdateUser(UserModel user) async {
+   // await _db
+     //   .collection("Mahasiswa").where("Email", isEqualTo: mail);
+    
+        // .update(user.toJson())
+        // .whenComplete(() => Get.snackbar("Success", "Update User Data"));
+  }
+
+  Future<UserModel> getUserDataDetails(String email) async {
+    final snapshoot = await _db
+        .collection('Mahasiswa')
+        .where('Email', isEqualTo: email)
+        .get();
+    final userdata =
+        snapshoot.docs.map((e) => UserModel.fromSnapshot(e)).single;
     return userdata;
   }
 
-  Future<List<UserModel>> allUsers() async{
+  Future<List<UserModel>> allUsers() async {
     final snapshoot = await _db.collection('Kegiatan').get();
-    final userdata = snapshoot.docs.map((e) => UserModel.fromSnapshot(e)).toList();
+    final userdata =
+        snapshoot.docs.map((e) => UserModel.fromSnapshot(e)).toList();
     return userdata;
   }
 }

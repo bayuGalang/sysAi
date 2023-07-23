@@ -8,6 +8,7 @@ import 'package:itcc_mobile/model/user_model.dart';
 import 'package:itcc_mobile/model/kegiatan_model.dart';
 import 'package:itcc_mobile/repository/user_repository/autentication.dart';
 import 'package:itcc_mobile/screen/listDaftarKegiatan_screen.dart';
+import 'package:itcc_mobile/screen/mos.dart';
 import 'package:itcc_mobile/screen/mtcna.dart';
 import 'package:itcc_mobile/screen/profile_screen.dart';
 import 'package:itcc_mobile/screen/listDaftarKegiatan_screen.dart';
@@ -445,7 +446,9 @@ class jadwal extends StatelessWidget {
                   Get.to(() => mtcnaScreen());
                 }),
                 transactionItem('assets/icon/MOS-Badge.png', 'MOS',
-                    'Microsoft Office Specialist', "750.000", "19 Aug", () {}),
+                    'Microsoft Office Specialist', "750.000", "19 Aug", () {
+                  Get.to(()=> mosScreen());
+                    }),
                 transactionItem('assets/icon/MCE.png', 'MCE',
                     'Microsoft Certified Educator', "1.200.000", "19 Aug", () {}),
                 transactionItem(

@@ -1,6 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:itcc_mobile/screen/login_screen.dart';
+import 'package:itcc_mobile/screen/register_option_screen.dart';
 import 'package:itcc_mobile/screen/register_screen.dart';
 import 'package:itcc_mobile/shared/thame.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -169,7 +172,7 @@ class _onboarding_screenState extends State<onboarding_screen> {
                     customFilledButton(
                         title: "Get Started",
                         onPress: () {
-                          Navigator.pushNamed(context, "signUp");
+                         Get.to(()=>RegisterOptionn());
                         }),
                     const SizedBox(
                       height: 20,
