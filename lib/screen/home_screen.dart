@@ -16,6 +16,8 @@ import 'package:itcc_mobile/screen/signIn_option_screen.dart';
 import 'package:itcc_mobile/shared/thame.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widget/custom_widget.dart';
+import 'aboutUs_screen.dart';
+import 'editProfil.dart';
 
 class homeScreen extends StatefulWidget {
   const homeScreen({Key? key}) : super(key: key);
@@ -76,69 +78,192 @@ class _homeScreenState extends State<homeScreen> with TickerProviderStateMixin {
         ),
       ),
       Container(),
-      Container(),
-      Container(),
+      Container(
+        margin: EdgeInsets.only(top: 70),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 22),
+              child: Text(
+                'News',
+                style:
+                    blackTextStyle.copyWith(fontSize: 16, fontWeight: semiBold),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              child: GestureDetector(
+                onTap: (){Get.snackbar("OnProgress", "Masih Progress Developing");},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    friendlyTipsItem('assets/images/image 16.png',
+                        'Best tip for using a PowerPoint', 'abc'),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    friendlyTipsItem('assets/images/image 17.png',
+                        'How To Use Excel', 'abc'),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              child: GestureDetector(
+                onTap: (){Get.snackbar("OnProgress", "Masih Progress Developing");},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    friendlyTipsItem('assets/images/image 16.png',
+                        'Best tip for using a PowerPoint', 'abc'),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    friendlyTipsItem('assets/images/image 17.png',
+                        'How To Use Excel', 'abc'),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              child: GestureDetector(
+                onTap: (){Get.snackbar("OnProgress", "Masih Progress Developing");},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    friendlyTipsItem('assets/images/image 16.png',
+                        'Best tip for using a PowerPoint', 'abc'),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    friendlyTipsItem('assets/images/image 17.png',
+                        'How To Use Excel', 'abc'),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      Container(
+        child: FutureBuilder(
+          future: controller.getUserdata(),
+          builder: (context, snapshot) {
+            UserModel userData = snapshot.data as UserModel;
+            return Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 300,
+                  height: 450,
+                  decoration: BoxDecoration(
+                      color: whiteColor,
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 15, bottom: 10),
+                        width: 100,
+                        height: 100,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              image: AssetImage('assets/images/image.png')),
+                        ),
+                      ),
+                      Text(
+                        userData.Nama,
+                        style: blackTextStyle.copyWith(
+                            fontWeight: bold, fontSize: 20),
+                      ),
+                      Text(
+                        userData.Nim,
+                        style: greyTextStyle.copyWith(
+                            fontWeight: semiBold, fontSize: 15),
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      iconProfil('assets/icon/edit_profil_icon.png',
+                          "Edit Profil", () => Get.to(() => editProfil())),
+                      iconProfil(
+                          'assets/icon/pin_icon.png', 'Lupa Password', () {}),
+                      iconProfil('assets/icon/info.png', 'Tentang',
+                          () => Get.to(aboutUsScreen())),
+                      iconProfil('assets/icon/fi_log-out.png', 'Logout', () {
+                        AutenticationRepository.instance.logout();
+                        Get.offAll(() => SignInOptionn());
+                      }),
+                      Text(
+                        'SysAi - ITCC',
+                        style: greyTextStyle.copyWith(
+                            fontWeight: light, fontSize: 10),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ));
+          },
+        ),
+      ),
     ];
     return Scaffold(
-        backgroundColor: backgroundColor,
-        bottomNavigationBar: BottomAppBar(
-          color: backgroundColor,
-          shape: const CircularNotchedRectangle(),
-          clipBehavior: Clip.antiAlias,
-          notchMargin: 6,
-          elevation: 0,
-          child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            elevation: null,
-            selectedItemColor: blueColor,
-            unselectedItemColor: blackColor,
-            showSelectedLabels: true,
-            showUnselectedLabels: true,
-            selectedLabelStyle:
-                blueTextStyle.copyWith(fontSize: 10, fontWeight: medium),
-            unselectedLabelStyle:
-                blackTextStyle.copyWith(fontSize: 10, fontWeight: medium),
-            items: [
-              BottomNavigationBarItem(
-                  icon: Image.asset(
-                    'assets/icon/fi_layers-3.png',
-                    width: 20,
-                  ),
-                  label: 'Overeview'),
-              BottomNavigationBarItem(
-                  icon:
-                      Image.asset('assets/icon/fi_file-text-2.png', width: 20),
-                  label: 'History'),
-              BottomNavigationBarItem(
-                  icon: Image.asset('assets/icon/fi_trending-up-2.png',
-                      width: 20),
-                  label: "News"),
-              BottomNavigationBarItem(
-                  icon: Image.asset('assets/icon/fi_gift-2.png', width: 20),
-                  label: 'Reward'),
-            ],
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-          ),
+      backgroundColor: backgroundColor,
+      bottomNavigationBar: BottomAppBar(
+        color: backgroundColor,
+        shape: const CircularNotchedRectangle(),
+        clipBehavior: Clip.antiAlias,
+        notchMargin: 6,
+        elevation: 0,
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          elevation: null,
+          selectedItemColor: blueColor,
+          unselectedItemColor: blackColor,
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          selectedLabelStyle:
+              blueTextStyle.copyWith(fontSize: 10, fontWeight: medium),
+          unselectedLabelStyle:
+              blackTextStyle.copyWith(fontSize: 10, fontWeight: medium),
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined),
+                label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.history_edu),
+                label: 'History'),
+            BottomNavigationBarItem(
+                icon:
+                    Icon(Icons.newspaper_outlined),
+                label: "News"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle_rounded), label: 'Profile'),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: blueItccColor,
-          onPressed: () {
-            AutenticationRepository.instance.logout();
-            Get.offAll(() => SignInOptionn());
-          },
-          child: Image.asset(
-            'assets/icon/cs.png',
-            width: 35,
-          ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: blueItccColor,
+        onPressed: () {
+          AutenticationRepository.instance.logout();
+          Get.offAll(() => SignInOptionn());
+        },
+        child: Image.asset(
+          'assets/icon/cs.png',
+          width: 35,
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        body: GestureDetector(
-          onDoubleTap: () {
-            Get.to(() => homeScreen());
-          },
-          child: Center(child: scren.elementAt(_selectedIndex)),
-        ));
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      body: Center(child: scren.elementAt(_selectedIndex)),
+    );
   }
 
   Widget Profile(BuildContext context, String Nama) {
@@ -385,7 +510,7 @@ class _homeScreenState extends State<homeScreen> with TickerProviderStateMixin {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 22),
             child: Text(
-              'Tips',
+              'News',
               style:
                   blackTextStyle.copyWith(fontSize: 16, fontWeight: semiBold),
             ),
@@ -447,10 +572,15 @@ class jadwal extends StatelessWidget {
                 }),
                 transactionItem('assets/icon/MOS-Badge.png', 'MOS',
                     'Microsoft Office Specialist', "750.000", "19 Aug", () {
-                  Get.to(()=> mosScreen());
-                    }),
-                transactionItem('assets/icon/MCE.png', 'MCE',
-                    'Microsoft Certified Educator', "1.200.000", "19 Aug", () {}),
+                  Get.to(() => mosScreen());
+                }),
+                transactionItem(
+                    'assets/icon/MCE.png',
+                    'MCE',
+                    'Microsoft Certified Educator',
+                    "1.200.000",
+                    "19 Aug",
+                    () {}),
                 transactionItem(
                     'assets/icon/mcf.png',
                     'MCF',
@@ -467,76 +597,29 @@ class jadwal extends StatelessWidget {
   }
 }
 
-// class jadwalList extends StatelessWidget {
-//   const jadwalList({Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final kegiatan = Get.put(kegiatanController());
-//     return FutureBuilder<List<KegiatanModel>>(
-//       future: kegiatan.allKegiatan(),
-//       builder: (context, snapshot) {
-//         KegiatanModel kg = snapshot.data as KegiatanModel;
-//         return Container(
-//           margin: EdgeInsets.only(
-//             top: 30,
-//             left: 4,
-//           ),
-//           child: Column(
-//             children: [
-//               Align(
-//                 alignment: Alignment.topLeft,
-//                 child: Text(
-//                   'Jadwal Kegiatan Terdekat',
-//                   style:
-//                       blackTextStyle.copyWith(fontSize: 16, fontWeight: bold),
-//                 ),
-//               ),
-//               Container(
-//                 margin: const EdgeInsets.only(top: 14),
-//                 padding: const EdgeInsets.all(22),
-//                 decoration: BoxDecoration(
-//                     borderRadius: BorderRadius.circular(20),
-//                     color: Colors.white),
-//                 child: ListView.builder(
-//                     shrinkWrap: true,
-//                     itemCount: snapshot.data!.length,
-//                     itemBuilder: (c, index) {
-//                       return Column(
-//                         children: [
-//                           GestureDetector(
-//                             onTap: PopUpx(context),
-//                             child: transactionItem(
-//                                 'assets/icon/MOS-Badge.png',
-//                                 'MOS',
-//                                 "Microsoft Office Specialist",
-//                                 snapshot.data![index].Harga,
-//                                 snapshot.data![index].openDate),
-//                           ),
-//                           transactionItem('assets/icon/Mikrotik-2.png', 'MTCNA',
-//                               'Mikrotik', 1200000, "29 Aug"),
-//                           transactionItem('assets/icon/MOS-Badge.png', 'MOS',
-//                               'Microsoft Office Specialist', 750000, "19 Aug"),
-//                           transactionItem(
-//                               'assets/icon/MCE.png',
-//                               'MCE',
-//                               'Microsoft Certified Educator',
-//                               1200000,
-//                               "19 Aug"),
-//                           transactionItem(
-//                               'assets/icon/mcf.png',
-//                               'MCF',
-//                               'Microsoft Certified Fundamental',
-//                               1000000,
-//                               "19 Aug"),
-//                         ],
-//                       );
-//                     }),
-//               )
-//             ],
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
+Widget iconProfil(var image, String title, var onTap) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      margin: EdgeInsets.only(left: 20, bottom: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image(
+            image: AssetImage(image),
+            width: 24,
+            height: 24,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            title,
+            style: blackTextStyle.copyWith(fontWeight: semiBold, fontSize: 15),
+          )
+        ],
+      ),
+    ),
+  );
+}

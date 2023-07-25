@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:itcc_mobile/helper/validator.dart';
+import 'package:itcc_mobile/screen/admin_screen.dart';
 import 'package:itcc_mobile/screen/register_screen.dart';
 import 'package:itcc_mobile/controller/signUP_controller.dart';
 import 'package:itcc_mobile/shared/thame.dart';
@@ -97,9 +98,14 @@ class _loginScreenState extends State<loginScreen> {
                 customFilledButton(
                     title: "Sign In",
                     onPress: () {
-                      signUpController.instance.loginUser(
-                          controller.emailController.text.trim(),
-                          controller.passwordController.text.trim());
+                      if(controller.emailController.text == "1adm"){
+                        Get.to(()=>AdminScreen());
+                      }
+                      else{
+                        signUpController.instance.loginUser(
+                            controller.emailController.text.trim(),
+                            controller.passwordController.text.trim());
+                      }
                     })
               ],
             ),

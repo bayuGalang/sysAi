@@ -53,7 +53,7 @@ class sertifikatSaya extends StatelessWidget {
                     child: Column(
                       children: [
                         Center(
-                          child: Text("tidak ada data"),
+                          child: Text("Belum Mengikuti Kegiatan"),
                         )
                       ],
                     ),
