@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
+import 'package:itcc_mobile/controller/peserta_controller.dart';
+import 'package:itcc_mobile/model/peserta_model.dart';
 import 'package:itcc_mobile/screen/home_screen.dart';
 import 'package:itcc_mobile/shared/thame.dart';
 import 'package:itcc_mobile/widget/custom_widget.dart';
@@ -102,6 +104,7 @@ class _mosScreenState extends State<mosScreen> {
 }
 
 PopUpx(BuildContext context) {
+  pesertaController controller = pesertaController();
   Widget level() {
     return Container(
       margin: EdgeInsets.only(top: 20),
@@ -181,10 +184,21 @@ PopUpx(BuildContext context) {
         Container(
           padding: EdgeInsets.symmetric(vertical: 10),
           child: TextField(
+            controller: controller.namaController,
             decoration: InputDecoration(
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14.0)),
                 hintText: 'Nama Anda'),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: TextField(
+            controller: controller.emailController,
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14.0)),
+                hintText: 'email'),
           ),
         ),
         Container(
@@ -212,7 +226,13 @@ PopUpx(BuildContext context) {
               primary: blueItccColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8))),
-          onPressed: () {},
+          onPressed: () {
+            final data = pesertaModel(
+                email: controller.emailController.text.trim(),
+                program: controller.programController.text.trim(),
+                nama: controller.namaController.text.trim());
+            pesertaController.instence.daftar(data);
+          },
           child: Text(
             "Ok",
             style: TextStyle(color: Colors.white, fontSize: 20),
@@ -221,7 +241,6 @@ PopUpx(BuildContext context) {
       ),
     );
   }
-
 
   Widget time() {
     DateTime date = DateTime.now();
@@ -322,11 +341,14 @@ PopUpx(BuildContext context) {
                   popUpHeader(),
                   nama(),
                   dropDown2(),
-                //  time(),
+                  //  time(),
                   Container(
-                    margin: EdgeInsets.only(top: 20, bottom: 10),
-                    child: Text("Pilih Jadwal", style: blackTextStyle.copyWith(fontWeight: bold, fontSize: 13),)
-                  ),
+                      margin: EdgeInsets.only(top: 20, bottom: 10),
+                      child: Text(
+                        "Pilih Jadwal",
+                        style: blackTextStyle.copyWith(
+                            fontWeight: bold, fontSize: 13),
+                      )),
                   checkBox(),
                   editButton(),
                 ],
@@ -339,7 +361,7 @@ PopUpx(BuildContext context) {
 
 class checkBox extends StatefulWidget {
   checkBox({Key? key}) : super(key: key);
-  
+
   @override
   State<checkBox> createState() => _checkBoxState();
 }
@@ -370,7 +392,6 @@ class _checkBoxState extends State<checkBox> {
   }
 }
 
-
 class dropDown2 extends StatefulWidget {
   dropDown2({Key? key}) : super(key: key);
 
@@ -380,14 +401,11 @@ class dropDown2 extends StatefulWidget {
 
 class dropDown2State extends State<dropDown2> {
   String? _selectedValue;
-  List<String> listOfValue = [
-    'Word',
-    'Excel',
-    'Power Point'
-  ];
+  List<String> listOfValue = ['Word', 'Excel', 'Power Point'];
 
   @override
   Widget build(BuildContext context) {
+    pesertaController controller = pesertaController();
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

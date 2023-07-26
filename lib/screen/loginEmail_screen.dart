@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-
 import '../controller/signUP_controller.dart';
 import '../helper/validator.dart';
 import '../shared/thame.dart';
@@ -55,7 +54,7 @@ class loginEmail extends StatelessWidget {
                 const SizedBox(height: 30),
                 customFilledButton(
                     title: "Continue",
-                    onPress: () { })
+                    onPress: () {})
               ],
             ),
           ),
